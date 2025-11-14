@@ -1,1 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moriloom - Artist Inspiration & Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .blob-1 {
+            width: 300px;
+            height: 300px;
+            background: #ff006e;
+            top: -50px;
+            left: -50px;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            width: 250px;
+            height: 250px;
+            background: #00d9ff;
+            bottom: -30px;
+            right: -30px;
+            animation-delay: 2s;
+        }
+
+        .blob-3 {
+            width: 200px;
+            height: 200px;
+            background: #ffd60a;
+            bottom: 100px;
+            left: 10%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0px, 0px);
+            }
+            25% {
+                transform: translate(20px, -20px);
+            }
+            50% {
+                transform: translate(-10px, 10px);
+            }
+            75% {
+                transform: translate(10px, 20px);
+            }
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            position: relative;
+            z-index: 10;
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 0, 110, 0.2);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff006e, #00d9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #ff006e;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #ff006e, #00d9ff);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            z-index: 5;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ff006e, #00d9ff, #ffd60a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            animation: slideUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideUp 0.8s ease-out 0.4s backwards;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff006e, #ff4081);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 0, 110, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 0, 110, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #00d9ff;
+            border: 2px solid #00d9ff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 217, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tools Section */
+        .tools-section {
+            position: relative;
+            z-index: 5;
+            padding: 5rem 5%;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #ff006e, #00d9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tool-card {
+            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(0, 217, 255, 0.1));
+            border: 1px solid rgba(255, 0, 110, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .tool-card:hover::before {
+            left: 100%;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 217, 255, 0.8);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.2);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .tool-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ff006e;
+        }
+
+        .tool-card p {
+            color: #b0b0b0;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-card a {
+            color: #00d9ff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tool-card a:hover {
+            color: #ff006e;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 5;
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(255, 0, 110, 0.2);
+            padding: 2rem 5%;
+            text-align: center;
+            color: #888;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: #00d9ff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #ff006e;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-buttons {
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <nav>
+        <div class="logo">MORILOOM</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#tools">Tools</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="home">
+        <h1>Spark Your Creativity</h1>
+        <p>A collection of powerful tools designed to help artists overcome creative blocks and discover endless inspiration for their drawings.</p>
+        <div class="cta-buttons">
+            <button class="btn btn-primary" onclick="document.getElementById('tools').scrollIntoView({behavior: 'smooth'})">
+                Explore Tools
+            </button>
+            <button class="btn btn-secondary" onclick="alert('Coming soon!')">
+                Learn More
+            </button>
+        </div>
+    </section>
+
+    <section class="tools-section" id="tools">
+        <h2 class="section-title">Artist Tools</h2>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <div class="tool-icon">🎲</div>
+                <h3>Idea Generator</h3>
+                <p>Get random prompts and drawing challenges to spark your imagination. Never face a blank canvas again with endless inspiration at your fingertips.</p>
+                <a href="#" onclick="alert('Coming soon!')">Start Generating →</a>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">🎨</div>
+                <h3>Color Palette Creator</h3>
+                <p>Generate harmonious color palettes based on color theory. Explore different schemes and find the perfect combination for your artwork.</p>
+                <a href="#" onclick="alert('Coming soon!')">Create Palettes →</a>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">👥</div>
+                <h3>Character Concept Tool</h3>
+                <p>Build unique character concepts with randomized traits, personalities, and backgrounds. Perfect for character design and storytelling projects.</p>
+                <a href="#" onclick="alert('Coming soon!')">Design Characters →</a>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">🏞️</div>
+                <h3>Scene Composer</h3>
+                <p>Generate dynamic scene ideas with environments, moods, and atmospheric details. Create compelling compositions for your next masterpiece.</p>
+                <a href="#" onclick="alert('Coming soon!')">Compose Scenes →</a>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">✏️</div>
+                <h3>Pose Generator</h3>
+                <p>Explore a vast collection of figure poses and anatomy reference suggestions. Improve your figure drawing with detailed pose descriptions.</p>
+                <a href="#" onclick="alert('Coming soon!')">Browse Poses →</a>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">🎭</div>
+                <h3>Emotion & Expression</h3>
+                <p>Master character expressions and emotions. Get detailed guides on drawing faces with authentic feelings and emotional depth.</p>
+                <a href="#" onclick="alert('Coming soon!')">Explore Emotions →</a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p>&copy; 2025 Moriloom - Tools for Every Artist</p>
+        <p>Created to inspire and empower artists worldwide</p>
+        <div class="social-links">
+            <a href="#" onclick="alert('Coming soon!')">Twitter</a>
+            <a href="#" onclick="alert('Coming soon!')">Instagram</a>
+            <a href="#" onclick="alert('Coming soon!')">Discord</a>
+        </div>
+    </footer>
+</body>
+</html>
